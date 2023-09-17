@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TextInput from "./components/TextInput";
 import PasswordInput from "./components/PasswordInput";
-import Button from "./components/Button";
+import Button from "./components/Button";``
 
 const Logo = (
   <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" className="w-32 h-32">
@@ -83,23 +83,38 @@ const Logo = (
 function App() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [erorrName, setErorrName] = useState(false)
+  const [erorrPassword, setErorrPassword] = useState(false)
 
   //******************************************************** */
 
   const UserNameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
+    if(erorrName)setErorrName(false);
   };
   const PasswordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
+    if(erorrPassword)setErorrPassword(false);
   };
 
   const OnSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // alert("")
+    if(!userName){
+      setErorrName(true)
+      return
+    }
+    if(!password){
+      setErorrPassword(true)
+      return
+    }
+    setUserName("")
+    setPassword("")
+    alert(`username:${userName}\npassword:${password}`)
+    
   };
 
   return (
-    <div className="w-screen h-screen bg-[#0F172A] p-10 flex justify-center items-center">
+    <div className="relative w-screen h-screen bg-[#0F172A] p-10 flex justify-center items-center">
       <div className="md:w-1/2 max-md:w-full h-auto pb-10 pt-5 rounded-md p-2 shrink shadow-slate-200 shadow-md flex flex-col items-center">
         <div className="w-full h-40 flex justify-center items-start">
           {Logo}
@@ -112,6 +127,7 @@ function App() {
             <TextInput
               onChange={UserNameHandler}
               value={userName}
+              erorr={erorrName}
               placeholder="نام کاربری"
             />
           </div>
@@ -120,6 +136,7 @@ function App() {
               placeholder="رمز عبور"
               value={password}
               onChange={PasswordHandler}
+              erorr={erorrPassword}
             />
           </div>
           <div>
